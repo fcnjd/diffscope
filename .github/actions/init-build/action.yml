@@ -65,7 +65,7 @@ runs:
         restore-keys: |
           ${{ runner.os }}-vcpkg-
 
-    - name: Install vcpkg dependencies
+    - name: Update vcpkg, then install dependencies
       shell: pwsh
       run: |
         if (!(Test-Path vcpkg)) {
@@ -78,6 +78,7 @@ runs:
         }
         $env:QT_DIR=$env:Qt5_DIR
         $env:VCPKG_KEEP_ENV_VARS="QT_DIR;Qt5_DIR"
+        ./vcpkg update
         ./vcpkg install `
           --x-manifest-root=${{ github.workspace }}/scripts/vcpkg-manifest `
           --x-install-root=./installed `
